@@ -32,6 +32,29 @@ Meteor.methods({
     return session.id;
   },
 
+  'stripe.getAllProducts': async () => {
+    const stripe = initStripe(Meteor.settings.private.stripe_secret);
+
+    // const {data} = await stripe.products.list();
+
+    const { data: prices } = await stripe.prices.list();
+
+    const plans = await Promise.all(
+      prices.map(async (price) => {
+        const product = await stripe.products.retrieve(price.product);
+        return {
+          id: price.id,
+          name: product.name,
+          price: price.unit_amount,
+          interval: price.recurring.interval,
+          currency: price.currency,
+        };
+      })
+    );
+
+    return plans
+  },
+
   'stripe.getProducts': async () => {
     const stripe = initStripe(Meteor.settings.private.stripe_secret);
 

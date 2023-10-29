@@ -12,6 +12,8 @@ import {
 
 import Logout from './pages/logout';
 import Root from './pages/root';
+import PaymentSuccess from './pages/paymentSuccess';
+import PaymentCancel from './pages/paymentCancel';
 
 const createRouterCustom = (user) => {
   const publicRoutes = createBrowserRouter([
@@ -30,6 +32,14 @@ const createRouterCustom = (user) => {
     {
       path: "/verify-email/:token",
       element: <EmailVerification />,
+    },
+    {
+      path: "/payment/success",
+      element: <PaymentSuccess />,
+    },
+    {
+      path: "/payment/cancelled",
+      element: <PaymentCancel />,
     }
   ]);
 
@@ -48,6 +58,14 @@ const createRouterCustom = (user) => {
           element: <PricingPage />,
         },
       ],
+    },
+    {
+      path: "/payment/success",
+      element: <PaymentSuccess />,
+    },
+    {
+      path: "/payment/cancelled",
+      element: <PaymentCancel />,
     }
   ]);
 

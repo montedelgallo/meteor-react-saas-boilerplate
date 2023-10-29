@@ -1,8 +1,10 @@
 import express from 'express'
 import { Meteor } from 'meteor/meteor'
+import bodyParser from 'body-parser'
 
 const app = express()
 
+app.use(bodyParser.json())
 
 // Adding a middleware to handle Meteor user authentication
 app.use((req, res, next) => {
@@ -23,13 +25,24 @@ app.use((req, res, next) => {
 });
 
 app.get('/hello', (req, res) => {
-  const links = LinksCollection.find({}).fetch()
-  res.status(200).json(links)
+  res.status(200).json(
+    {}
+  )
 })
 
-app.get('/subscribe/:planId', async (req, res) => {
+app.get('/subscribe', async (req, res) => {
   // get localstorage value
-  
+  const plans = await Meteor.callAsync('stripe.getAllProducts')
+
+  res.json(plans)
 })
+
+app.all('/stripe/webhook', async (req, res) => {
+  console.log('webhook')
+  console.log(req.body)
+  res.status(200).json({ received: true })
+})
+
+
 
 export default app

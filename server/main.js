@@ -9,6 +9,7 @@ import '/imports/api/tasksMethods';
 import '/imports/api/plansPubblication';
 import './userMethods';
 import './stripeMethods';
+import './stripeWebhooks';
 
 
 const SEED_USERNAME = 'admin@admin.com';
@@ -22,6 +23,10 @@ const insertTask = taskText => TasksCollection.insert({ text: taskText });
 
 
 Meteor.startup(async () => {
+
+  // process.env.ROOT_URL = 'https://2f99-109-112-78-64.ngrok-free.app';
+
+
   // If the Links collection is empty, add some data.
   // if (await LinksCollection.find().countAsync() === 0) {
   //   await insertLink({
@@ -109,10 +114,6 @@ Meteor.startup(async () => {
       password: SEED_PASSWORD,
     });
   }
-
-  
-
-
 
   WebApp.connectHandlers.use('/api', Meteor.bindEnvironment(app))
 
