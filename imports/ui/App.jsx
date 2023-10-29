@@ -43,6 +43,10 @@ const createRouterCustom = (user) => {
           path: "",
           element: <Logout />,
         },
+        {
+          path: "/pricing",
+          element: <PricingPage />,
+        },
       ],
     }
   ]);
