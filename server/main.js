@@ -1,12 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { WebApp } from 'meteor/webapp'
+import crypto from 'crypto';
 import { LinksCollection } from '/imports/api/links';
-import { TasksCollection } from '/imports/api/TasksCollection';
+import { TasksCollection } from '/imports/db/TasksCollection';
 import initStripe from 'stripe';
 import app from '/imports/express/server'
+import '/imports/api/tasksMethods';
+import '/imports/api/plansPubblication';
 import './userMethods';
 import './stripeMethods';
-import crypto from 'crypto';
 
 
 const SEED_USERNAME = 'admin@admin.com';

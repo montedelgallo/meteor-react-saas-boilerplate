@@ -1,14 +1,27 @@
 import React from "react";
 import { Meteor } from 'meteor/meteor';
+import { PlansCollection } from "../../db/PlansCollection";
+import { useTracker } from 'meteor/react-meteor-data';
 
 export default PricingPage = () => {
 
-  const getPricing = async () => {
-    const pricing = await Meteor.callAsync('stripe.getProducts')
-    console.log(pricing)
-  }
+  const { plans, pendingPlan, isLoading } = useTracker(() => {
+    const noDataAvailable = { plans: [], pendingPlan: 0 };
 
-  getPricing()
+    const handler = Meteor.subscribe('plans');
+
+    if (!handler.ready()) {
+      console.log('loading plans')
+      return { ...noDataAvailable, isLoading: true };
+    }
+
+    const plans = PlansCollection.find({}).fetch();
+
+
+    return { plans };
+  })
+
+  console.log(plans)
 
   return (
     <div>
