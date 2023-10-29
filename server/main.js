@@ -5,6 +5,8 @@ import { TasksCollection } from '/imports/api/TasksCollection';
 import initStripe from 'stripe';
 import app from '/imports/express/server'
 import './userMethods';
+import './stripeMethods';
+import crypto from 'crypto';
 
 
 const SEED_USERNAME = 'admin@admin.com';
@@ -73,17 +75,24 @@ Meteor.startup(async () => {
 
     const stripe = initStripe(Meteor.settings.private.stripe_secret);
 
+    console.log(user)
+
     try {
       // create stripe customer
       const customer = await stripe.customers.create({
-        email: user.email
+        email: user.emails[0].address
       });
-
       console.log('customer', customer);
 
       user.stripeCustomer = customer.id;
       // create an apikey by default
       // ...
+      user.apikeys = [
+        {
+          "name": "default",
+          "key": crypto.randomBytes(32).toString('hex'),
+        }
+      ]
 
       // Don't forget to return the new user object at the end!
       return user;

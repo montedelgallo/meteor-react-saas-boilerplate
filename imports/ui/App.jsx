@@ -4,6 +4,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { LoginForm } from './components/LoginForm';
 import RegistrationForm from './components/RegistrationForm';
 import EmailVerification from './components/EmailVerification';
+import PricingPage from './publicPages/Pricing';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -17,6 +18,10 @@ const createRouterCustom = (user) => {
     {
       path: "/",
       element: <LoginForm />,
+    },
+    {
+      path: "/pricing",
+      element: <PricingPage />,
     },
     {
       path: "/register",
