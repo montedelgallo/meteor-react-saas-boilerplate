@@ -9,6 +9,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import Logout from './pages/logout';
+import Root from './pages/root';
 
 const createRouterCustom = (user) => {
   const publicRoutes = createBrowserRouter([
@@ -29,13 +31,15 @@ const createRouterCustom = (user) => {
   const appRoutes = createBrowserRouter([
     {
       path: "/",
-      element: <Fragment>
-        <h1>Ciao</h1>
-        <div className="user" onClick={() => Meteor.logout()}>
-          🚪 {user?.username}
-        </div>
-      </Fragment>,
-    },
+      element: <Root />,
+      // errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "",
+          element: <Logout />,
+        },
+      ],
+    }
   ]);
 
   if (user) {
