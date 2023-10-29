@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { LinksCollection } from '/imports/api/links';
+import express from 'express'
+import { WebApp } from 'meteor/webapp'
 
 async function insertLink({ title, url }) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
@@ -28,6 +30,15 @@ Meteor.startup(async () => {
       url: 'https://forums.meteor.com',
     });
   }
+
+  const app = express()
+
+  app.get('/hello', (req, res) => {
+    res.status(200).send('Hello World!')
+  })
+
+  WebApp.connectHandlers.use('/api', Meteor.bindEnvironment(app))
+
 
   // We publish the entire Links collection to all clients.
   // In order to be fetched in real-time to the clients
