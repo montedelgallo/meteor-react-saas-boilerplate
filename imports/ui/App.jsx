@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import React, { useState, Fragment, useEffect } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { LoginForm } from './components/LoginForm';
+import RegistrationForm from './components/RegistrationForm';
+import EmailVerification from './components/EmailVerification';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -14,6 +16,14 @@ const createRouterCustom = (user) => {
       path: "/",
       element: <LoginForm />,
     },
+    {
+      path: "/register",
+      element: <RegistrationForm />,
+    },
+    {
+      path: "/verify-email/:token",
+      element: <EmailVerification />,
+    }
   ]);
 
   const appRoutes = createBrowserRouter([

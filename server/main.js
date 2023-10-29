@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import express from 'express'
 import { WebApp } from 'meteor/webapp'
 import { LinksCollection } from '/imports/api/links';
 import { TasksCollection } from '/imports/api/TasksCollection';
+import initStripe from 'stripe';
+import app from '/imports/express/server'
+import './userMethods';
 
-const SEED_USERNAME = 'admin';
+
+const SEED_USERNAME = 'admin@admin.com';
 const SEED_PASSWORD = 'password';
 
 async function insertLink({ title, url }) {
@@ -50,29 +53,55 @@ Meteor.startup(async () => {
   //   ].forEach(insertTask)
   // }
 
-  if (!Accounts.findUserByUsername(SEED_USERNAME)) {
+  // Configuring the Accounts email templates
+  Accounts.emailTemplates.siteName = 'YourSiteName';
+  Accounts.emailTemplates.from = 'YourSiteName <no-reply@yoursite.com>';
+
+  // Configuring the email verification template
+  Accounts.emailTemplates.verifyEmail = {
+    subject() {
+      return 'Verify Your Email Address';
+    },
+    text(user, url) {
+      const newUrl = url.replace('/#/', '/');
+      // Providing instructions to verify email
+      return `Hello ${user.emails[0].address},\n\nPlease verify your email address by clicking the link below:\n\n${newUrl}\n\nThank you.`;
+    },
+  };
+
+  Accounts.onCreateUser(async (options, user) => {
+
+    const stripe = initStripe(Meteor.settings.private.stripe_secret);
+
+    try {
+      // create stripe customer
+      const customer = await stripe.customers.create({
+        email: user.email
+      });
+
+      console.log('customer', customer);
+
+      user.stripeCustomer = customer.id;
+      // create an apikey by default
+      // ...
+
+      // Don't forget to return the new user object at the end!
+      return user;
+    } catch (error) {
+      throw new Meteor.Error('stripe-error', 'Failed to create Stripe customer');
+    }
+  });
+
+  if (!Accounts.findUserByEmail(SEED_USERNAME)) {
     Accounts.createUser({
-      username: SEED_USERNAME,
+      email: SEED_USERNAME,
       password: SEED_PASSWORD,
     });
   }
 
-  Accounts.onCreateUser((options, user) => {
-    // create stripe customer
-    // ...
+  
 
-    // create an apikey by default
-    // ...
 
-    // Don't forget to return the new user object at the end!
-    return user;
-  });
-
-  const app = express()
-  app.get('/hello', (req, res) => {
-    const links = LinksCollection.find({}).fetch()
-    res.status(200).json(links)
-  })
 
   WebApp.connectHandlers.use('/api', Meteor.bindEnvironment(app))
 
