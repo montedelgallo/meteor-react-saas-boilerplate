@@ -57,9 +57,21 @@ Meteor.startup(async () => {
     });
   }
 
+  Accounts.onCreateUser((options, user) => {
+    // create stripe customer
+    // ...
+
+    // create an apikey by default
+    // ...
+
+    // Don't forget to return the new user object at the end!
+    return user;
+  });
+
   const app = express()
   app.get('/hello', (req, res) => {
-    res.status(200).send('Hello World!')
+    const links = LinksCollection.find({}).fetch()
+    res.status(200).json(links)
   })
 
   WebApp.connectHandlers.use('/api', Meteor.bindEnvironment(app))
