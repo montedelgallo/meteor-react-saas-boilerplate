@@ -16,29 +16,22 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={submit} className="login-form">
+    <form className="auth-form auth-signup-form" onSubmit={submit} >
       <label htmlFor="email">email</label>
 
-      <input
-        type="text"
-        placeholder="email"
-        name="email"
-        required
-        onChange={e => setEmail(e.target.value)}
-      />
-
-      <label htmlFor="password">Password</label>
-
-      <input
-        type="password"
-        placeholder="Password"
-        name="password"
-        required
-        onChange={e => setPassword(e.target.value)}
-      />
-
-      <button type="submit">Log In</button>
-
+      <div className="email mb-3">
+        <label className="sr-only" for="signup-email">Email</label>
+        <input id="signup-email" name="signup-email" type="email" className="form-control signup-email" placeholder="Email" required="required" value={email}
+          onChange={(e) => setEmail(e.target.value)} />
+      </div>
+      <div className="password mb-3">
+        <label className="sr-only" for="signup-password">Password</label>
+        <input id="signup-password" name="signup-password" type="password" className="form-control signup-password" placeholder="Create a password" required="required" value={password}
+          onChange={(e) => setPassword(e.target.value)} />
+      </div>
+      <div className="text-center">
+          <button type="submit" className="btn app-btn-primary w-100 theme-btn mx-auto">Login</button>
+      </div>
     </form>
   );
 };

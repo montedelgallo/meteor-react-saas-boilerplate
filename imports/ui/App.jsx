@@ -5,6 +5,7 @@ import { LoginForm } from './components/LoginForm';
 import RegistrationForm from './components/RegistrationForm';
 import EmailVerification from './components/EmailVerification';
 import PricingPage from './publicPages/Pricing';
+import Register from './publicPages/Register';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -14,12 +15,18 @@ import Logout from './pages/logout';
 import Root from './pages/root';
 import PaymentSuccess from './pages/paymentSuccess';
 import PaymentCancel from './pages/paymentCancel';
+import Login from './publicPages/Login';
+import NavBar from './components/NavBar';
 
 const createRouterCustom = (user) => {
   const publicRoutes = createBrowserRouter([
     {
       path: "/",
-      element: <LoginForm />,
+      element: <Login />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
     },
     {
       path: "/pricing",
@@ -27,7 +34,7 @@ const createRouterCustom = (user) => {
     },
     {
       path: "/register",
-      element: <RegistrationForm />,
+      element: <Register />,
     },
     {
       path: "/verify-email/:token",
@@ -86,6 +93,9 @@ export const App = () => {
   console.log(user)
 
   return (
+    <>
+    <NavBar />
     <RouterProvider router={router} />
+    </>
   )
 };

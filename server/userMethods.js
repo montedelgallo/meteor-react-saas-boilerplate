@@ -4,9 +4,10 @@ import { Accounts } from 'meteor/accounts-base';
 import { Teams } from '../imports/db/TeamsCollection';
 // Registration method
 Meteor.methods({
-  'user.register'(email, password) {
+  'user.register'(args) {
+    const { email, password, firstName, lastName } = args;
     // Creating a new user
-    const userId = Accounts.createUser({ email, password });
+    const userId = Accounts.createUser({ email, password, profile: { firstName, lastName } });
     // Sending a verification email
     Accounts.sendVerificationEmail(userId);
   },

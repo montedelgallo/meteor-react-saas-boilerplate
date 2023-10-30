@@ -105,6 +105,7 @@ Meteor.startup(async () => {
       // TODO: By default create a team with email's personal space
       // const teamId = await Meteor.callAsync('teams.create', user.emails[0].address);
       // console.log('team', team);
+      user.profile = options.profile ? options.profile : {};
       
       const customer = await stripe.customers.create({
         name: teamName,
