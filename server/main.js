@@ -10,6 +10,8 @@ import '/imports/api/plansPubblication';
 import './userMethods';
 import './stripeMethods';
 import './stripeWebhooks';
+import { Teams } from '../imports/db/TeamsCollection';
+import { Random } from 'meteor/random'
 
 
 const SEED_USERNAME = 'admin@admin.com';
@@ -85,13 +87,9 @@ Meteor.startup(async () => {
     console.log(user)
 
     try {
-      // create stripe customer
-      const customer = await stripe.customers.create({
-        email: user.emails[0].address
-      });
-      console.log('customer', customer);
-
-      user.stripeCustomer = customer.id;
+      const email = user.emails[0].address
+      const teamName = `${email.split('@')[0]}'s Personal Space`;
+      
       // create an apikey by default
       user.apikeys = [
         {
@@ -100,13 +98,25 @@ Meteor.startup(async () => {
         }
       ]
 
+      const userId = Random.id();
+
+      user._id = userId;
+
       // TODO: By default create a team with email's personal space
       // const teamId = await Meteor.callAsync('teams.create', user.emails[0].address);
-
-
+      // console.log('team', team);
+      
+      const customer = await stripe.customers.create({
+        name: teamName,
+        email: email
+      });
+      
+      const team = await Teams.insert({ name: teamName, ownerId: userId, stripeCustomerId: customer.id });
+      console.log('team', team);
       // Don't forget to return the new user object at the end!
       return user;
     } catch (error) {
+      console.log(error)
       throw new Meteor.Error('stripe-error', 'Failed to create Stripe customer');
     }
   });

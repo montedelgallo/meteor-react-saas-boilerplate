@@ -1,6 +1,6 @@
 // Importing necessary libraries and collections
 import { Meteor } from 'meteor/meteor';
-import { Teams } from './collections';
+import { Teams } from '../db/TeamsCollection';
 
 // Methods for creating and managing teams
 Meteor.methods({
@@ -33,4 +33,5 @@ Meteor.methods({
     // Removing the member from the team
     Teams.update(teamId, { $pull: { memberIds: memberId } });
   },
+  
 });

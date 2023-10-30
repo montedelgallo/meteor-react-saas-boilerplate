@@ -1,9 +1,11 @@
 // Importing necessary libraries
 import { Mongo } from 'meteor/mongo';
+import SimpleSchema from "simpl-schema";
+import { attachSchema } from 'meteor/aldeed:collection2';
 
 // Creating the Teams and Users collections
 export const Teams = new Mongo.Collection('teams');
-export const Users = Meteor.users;
+
 
 // Schema for Teams collection
 export const TeamSchema = new SimpleSchema({
@@ -11,17 +13,24 @@ export const TeamSchema = new SimpleSchema({
     type: String,
     max: 100,
   },
+  stripeCustomerId: {
+    type: String,
+    optional: true,
+  },
   ownerId: {
     type: String,
-    regEx: SimpleSchema.RegEx.Id,
   },
   memberIds: {
     type: Array,
     optional: true,
   },
+  teamKind: {
+    type: String,
+    allowedValues: ['public', 'private', 'personal'],
+    defaultValue: 'personal',
+  },
   'memberIds.$': {
     type: String,
-    regEx: SimpleSchema.RegEx.Id,
   },
   createdAt: {
     type: Date,
