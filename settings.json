@@ -1,8 +1,4 @@
 {
   "private": {
     "stripe_secret": "sk_test_51MC97zGj7CyCgJPmJHtkoAIAc2HU7BsTMPixs7iAtCzUmXvVyaP004QRwzz1isTAlubK0cfAFsALqMAJc5Mp7KEj00bqFJ3Ld7"
-  },
-  "public": {
-    "stripe_publishable": "pk_test_51MC97zGj7CyCgJPmbWqJLJgN3Z7ExF1wPUtolRQraFyIIA4AF41FE5DJ3Z4V68j0p8hm5UNYmhzmaDApF0KbqChB00yMwYibeM"
-  }
-}
+},"public": {"stripe_publishable": "pk_test_51MC97zGj7CyCgJPmbWqJLJgN3Z7ExF1wPUtolRQraFyIIA4AF41FE5DJ3Z4V68j0p8hm5UNYmhzmaDApF0KbqChB00yMwYibeM"}}

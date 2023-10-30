@@ -93,13 +93,16 @@ Meteor.startup(async () => {
 
       user.stripeCustomer = customer.id;
       // create an apikey by default
-      // ...
       user.apikeys = [
         {
           "name": "default",
           "key": crypto.randomBytes(32).toString('hex'),
         }
       ]
+
+      // TODO: By default create a team with email's personal space
+      // const teamId = await Meteor.callAsync('teams.create', user.emails[0].address);
+
 
       // Don't forget to return the new user object at the end!
       return user;

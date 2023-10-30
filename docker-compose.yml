@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    platform: linux/amd64
+    environment:
+      - ROOT_URL=http://localhost
+      - MONGO_URL=mongodb://mongo:27017/meteor
+      - PORT=3000
+      - 'METEOR_SETTINGS={"private": {"stripe_secret": "sk_test_51MC97zGj7CyCgJPmJHtkoAIAc2HU7BsTMPixs7iAtCzUmXvVyaP004QRwzz1isTAlubK0cfAFsALqMAJc5Mp7KEj00bqFJ3Ld7"},"public": {"stripe_publishable": "pk_test_51MC97zGj7CyCgJPmbWqJLJgN3Z7ExF1wPUtolRQraFyIIA4AF41FE5DJ3Z4V68j0p8hm5UNYmhzmaDApF0KbqChB00yMwYibeM"}}'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
