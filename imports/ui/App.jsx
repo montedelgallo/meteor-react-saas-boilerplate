@@ -27,13 +27,13 @@ export const App = () => {
 
 
   return (
-    <main>
+    <>
       <Switch>
         <AuthenticatedRoute exact path="/" component={Dashboard} />
         <UnauthenticatedRoute exact path="/login" component={Login} />
         <Route path="/pricing" component={PricingPage} />
-        <Route path="/register" component={Register} />
-        <Route path="/verify-email/:token" component={EmailVerification} />
+        <UnauthenticatedRoute path="/register" component={Register} />
+        <UnauthenticatedRoute path="/verify-email/:token" component={EmailVerification} />
         <Route path="/payment/success" component={PaymentSuccess} />
         <Route path="/payment/cancelled" component={PaymentCancel} />
         <AuthenticatedRoute path="/dashboard" component={Dashboard} />
@@ -46,6 +46,6 @@ export const App = () => {
           </Switch>
         </Route>
       </Switch>
-    </main>
+    </>
   )
 };

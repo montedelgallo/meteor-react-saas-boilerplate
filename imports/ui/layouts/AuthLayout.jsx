@@ -1,13 +1,17 @@
 import React from 'react';
+import Header from '../shared/Header';
 
 const AuthLayout = ({ children }) => {
   return (
-    <div>
+    <>
       {/* You can put a header, sidebar, etc. here */}
-      <header>Authenticated Header</header>
-      <main>{children}</main>
-      {/* You can put a footer, etc. here */}
-    </div>
+      <Header />
+      <main className='app-wrapper'>
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+          {children}
+        </div>
+      </main>
+    </>
   );
 };
 
