@@ -1,6 +1,6 @@
 import React from 'react';
 import RegistrationForm from '../components/RegistrationForm';
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 
 export default Register = () => {
   return (

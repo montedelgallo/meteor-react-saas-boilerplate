@@ -25,7 +25,8 @@
     "react-router-dom": "^6.17.0",
     "simpl-schema": "^3.4.1",
     "sort-by": "^1.2.0",
-    "stripe": "^14.2.0"
+    "stripe": "^14.2.0",
+    "wouter": "^2.12.1"
   },
   "meteor": {
     "mainModule": {

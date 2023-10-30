@@ -10,92 +10,51 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-
+import { Route, Switch, Redirect } from "wouter";
 import Logout from './pages/logout';
 import Root from './pages/root';
 import PaymentSuccess from './pages/paymentSuccess';
 import PaymentCancel from './pages/paymentCancel';
 import Login from './publicPages/Login';
 import NavBar from './components/NavBar';
-
-const createRouterCustom = (user) => {
-  const publicRoutes = createBrowserRouter([
-    {
-      path: "/",
-      element: <Login />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/pricing",
-      element: <PricingPage />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/verify-email/:token",
-      element: <EmailVerification />,
-    },
-    {
-      path: "/payment/success",
-      element: <PaymentSuccess />,
-    },
-    {
-      path: "/payment/cancelled",
-      element: <PaymentCancel />,
-    }
-  ]);
-
-  const appRoutes = createBrowserRouter([
-    {
-      path: "/",
-      element: <Root />,
-      // errorElement: <ErrorPage />,
-      children: [
-        {
-          path: "",
-          element: <Logout />,
-        },
-        {
-          path: "/pricing",
-          element: <PricingPage />,
-        },
-      ],
-    },
-    {
-      path: "/payment/success",
-      element: <PaymentSuccess />,
-    },
-    {
-      path: "/payment/cancelled",
-      element: <PaymentCancel />,
-    }
-  ]);
-
-  if (user) {
-    return appRoutes;
-  } else {
-    return publicRoutes;
-  }
-}
-
+import Dashboard from './pages/dashboard';
 
 
 export const App = () => {
   const user = useTracker(() => Meteor.user());
+  const userId = useTracker(() => Meteor.userId());
 
-  const router = createRouterCustom(user);
+  console.log(userId)
+  // const router = createRouterCustom(user);
 
-  console.log(user)
 
   return (
-    <>
-    <NavBar />
-    <RouterProvider router={router} />
-    </>
+    <main>
+      <Switch>
+        <Route exact path="/">
+          {
+            userId ? <Dashboard /> : <Login />
+          }
+        </Route>
+        <Route path="/login">
+          {
+            userId ? <Redirect to="/" /> : <Login />
+          }
+        </Route>
+        <Route path="/pricing" component={PricingPage} />
+        <Route path="/register" component={Register} />
+        <Route path="/verify-email/:token" component={EmailVerification} />
+        <Route path="/payment/success" component={PaymentSuccess} />
+        <Route path="/payment/cancelled" component={PaymentCancel} />
+
+        {/* App Routes */}
+        <Route exact path="/" component={Root}>
+          <Switch>
+            <Route exact path="/" component={Logout} />
+            <Route path="/pricing" component={PricingPage} />
+          </Switch>
+        </Route>
+      </Switch>
+    </main>
   )
 };

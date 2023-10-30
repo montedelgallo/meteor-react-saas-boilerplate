@@ -17,15 +17,13 @@ export const LoginForm = () => {
 
   return (
     <form className="auth-form auth-signup-form" onSubmit={submit} >
-      <label htmlFor="email">email</label>
-
       <div className="email mb-3">
-        <label className="sr-only" for="signup-email">Email</label>
+        <label className="sr-only" htmlFor="signup-email">Email</label>
         <input id="signup-email" name="signup-email" type="email" className="form-control signup-email" placeholder="Email" required="required" value={email}
           onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div className="password mb-3">
-        <label className="sr-only" for="signup-password">Password</label>
+        <label className="sr-only" htmlFor="signup-password">Password</label>
         <input id="signup-password" name="signup-password" type="password" className="form-control signup-password" placeholder="Create a password" required="required" value={password}
           onChange={(e) => setPassword(e.target.value)} />
       </div>
