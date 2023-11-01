@@ -80,6 +80,18 @@ Meteor.startup(async () => {
     },
   };
 
+  Accounts.emailTemplates.resetPassword.subject = (user) => {
+    return "Reset your password on YourApp";
+  };
+  Accounts.emailTemplates.resetPassword.text = (user, url) => {
+    return `Hello,
+    To reset your password, simply click the link below.
+    ${url}
+    Thanks,
+    YourApp team
+    `;
+  };
+
   Accounts.onCreateUser(async (options, user) => {
 
     const stripe = initStripe(Meteor.settings.private.stripe_secret);

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
+import { Link } from "wouter";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -29,6 +30,9 @@ export const LoginForm = () => {
       </div>
       <div className="text-center">
           <button type="submit" className="btn app-btn-primary w-100 theme-btn mx-auto">Login</button>
+      </div>
+      <div className="mt-2">
+        <Link to="/password-lost">Forgot password?</Link>
       </div>
     </form>
   );

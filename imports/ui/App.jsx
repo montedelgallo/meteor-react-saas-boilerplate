@@ -16,6 +16,8 @@ import NavBar from './components/NavBar';
 import UnauthenticatedRoute from './layouts/UnauthenticatedRoute';
 import AuthenticatedRoute from './layouts/AuthenticatedRoute';
 import Dashboard from './pages/dashboard';
+import PasswordLost from './publicPages/PasswordLost';
+import PasswordReset from './publicPages/PasswordReset';
 
 
 export const App = () => {
@@ -31,9 +33,12 @@ export const App = () => {
       <Switch>
         <AuthenticatedRoute exact path="/" component={Dashboard} />
         <UnauthenticatedRoute exact path="/login" component={Login} />
-        <Route path="/pricing" component={PricingPage} />
-        <UnauthenticatedRoute path="/register" component={Register} />
+        <UnauthenticatedRoute exact path="/register" component={Register} />
+        <UnauthenticatedRoute exact path="/password-lost" component={PasswordLost} />
+        <UnauthenticatedRoute path="/reset-password/:token" component={PasswordReset} />
         <UnauthenticatedRoute path="/verify-email/:token" component={EmailVerification} />
+        
+        <Route path="/pricing" component={PricingPage} />
         <Route path="/payment/success" component={PaymentSuccess} />
         <Route path="/payment/cancelled" component={PaymentCancel} />
         <AuthenticatedRoute path="/dashboard" component={Dashboard} />

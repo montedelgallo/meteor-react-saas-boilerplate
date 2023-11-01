@@ -8,7 +8,7 @@ const UnauthLayout = ({ children }) => {
 
     // Remove the class when the component unmounts
     return () => {
-      document.body.classList.add('app');
+      document.getElementById('react-target').classList.add('app');
     };
   }, []);
 
