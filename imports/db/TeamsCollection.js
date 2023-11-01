@@ -46,4 +46,5 @@ export const TeamSchema = new SimpleSchema({
 Teams.attachSchema(TeamSchema);
 
 // Indexes for Teams collection
-Teams._ensureIndex({ ownerId: 1, name: 1 });
+// Teams._ensureIndex({ ownerId: 1, name: 1 });
+Teams.rawCollection().createIndex({ ownerId: 1, name: 1 });
