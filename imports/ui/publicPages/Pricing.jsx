@@ -25,7 +25,7 @@ export default PricingPage = () => {
   })
 
   const subscripeToPlan = (planId) => {
-    Meteor.call('stripe.getCheckoutSession', Meteor.user(), planId, async (err, result) => {
+    Meteor.call('stripe.getCheckoutSession', Meteor.userId(), planId, async (err, result) => {
       if (err) {
         console.log(err)
       } else {

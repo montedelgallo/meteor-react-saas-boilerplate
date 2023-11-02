@@ -1,6 +1,7 @@
 // Importing necessary libraries
 import { Meteor } from 'meteor/meteor';
 import { PlansCollection } from '/imports/db/PlansCollection';
+import { Teams } from '/imports/db/TeamsCollection';
 
 import initStripe from 'stripe';
 
@@ -11,7 +12,7 @@ Meteor.startup(async () => {
 // Registration method
 Meteor.methods({
 
-  'stripe.getCheckoutSession': async (user, priceId) => {
+  'stripe.getCheckoutSession': async (userId, priceId, current_team = null) => {
     const stripe = initStripe(Meteor.settings.private.stripe_secret);
     const lineItems = [
       {
@@ -20,8 +21,17 @@ Meteor.methods({
       },
     ];
 
+    let team
+
+    if (current_team == null) {
+      const uTeams = Teams.find({ ownerId: userId }).fetch();
+      team = uTeams[0]
+    } else {
+      team = current_team
+    }
+
     const session = await stripe.checkout.sessions.create({
-      customer: user.stripeCustomer,
+      customer: team.stripeCustomerId,
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -86,4 +96,24 @@ Meteor.methods({
       }
     })
   },
+
+  'stripe.customerPortal': async (userId, current_team = null) => {
+    const stripe = initStripe(Meteor.settings.private.stripe_secret);
+
+    let team
+
+    if (current_team == null) {
+      const uTeams = Teams.find({ ownerId: userId }).fetch();
+      team = uTeams[0]
+    } else {
+      team = current_team
+    }
+
+    const session = stripe.billingPortal.sessions.create({
+      customer: team.stripeCustomerId,
+      return_url: 'http://localhost:3000'
+    })
+
+    return session
+  }
 });

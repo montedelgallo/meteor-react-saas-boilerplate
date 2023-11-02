@@ -2,7 +2,12 @@ import React from 'react';
 import { Link } from "wouter";
 import { LoginForm } from '../components/LoginForm';
 
+import { atom, useAtom } from 'jotai'
+import { userAtom } from '../stores/AuthStore'
+
 export default Register = () => {
+  const [user] = useAtom(userAtom)
+
   return (
     <div className="row g-0 app-auth-wrapper">
       <div className="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">

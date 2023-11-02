@@ -1,6 +1,21 @@
 import React from "react";
+import { Meteor } from 'meteor/meteor';
 
 export default function Header() {
+
+  const goToPortal = () => {
+    Meteor.call('stripe.customerPortal', Meteor.userId(), async (err, result) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(result)
+        window.location.href = result.url
+      }
+    })
+  }
+
+
+
   return (
     <header class="app-header fixed-top">
       <div class="app-header-inner">
@@ -124,6 +139,7 @@ export default function Header() {
                   <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
                     <li><a class="dropdown-item" href="account.html">Account</a></li>
                     <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                    <li><a class="dropdown-item" onClick={goToPortal}>Billing</a></li>
                     <li><hr class="dropdown-divider" /></li>
                     <li><a class="dropdown-item" href="login.html">Log Out</a></li>
                   </ul>

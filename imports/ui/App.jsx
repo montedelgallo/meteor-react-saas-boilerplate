@@ -18,7 +18,7 @@ import AuthenticatedRoute from './layouts/AuthenticatedRoute';
 import Dashboard from './pages/dashboard';
 import PasswordLost from './publicPages/PasswordLost';
 import PasswordReset from './publicPages/PasswordReset';
-
+import { Provider, atom, useAtom, useSetAtom } from 'jotai'
 
 export const App = () => {
   const user = useTracker(() => Meteor.user());
@@ -29,7 +29,7 @@ export const App = () => {
 
 
   return (
-    <>
+    <Provider>
       <Switch>
         <AuthenticatedRoute exact path="/" component={Dashboard} />
         <UnauthenticatedRoute exact path="/login" component={Login} />
@@ -51,6 +51,6 @@ export const App = () => {
           </Switch>
         </Route>
       </Switch>
-    </>
+    </Provider>
   )
 };
